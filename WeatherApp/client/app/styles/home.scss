@@ -1,4 +1,11 @@
 .container {
-    margin-left:600px
+    margin: 0 auto;
+    width: 70%;
+    max-width:500px;
+    display: grid;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
+Button {
+    max-width:100px;
+}
