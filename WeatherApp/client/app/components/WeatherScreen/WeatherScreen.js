@@ -118,9 +118,14 @@ class WeatherScreen extends Component {
               Submit
             </Button>
             <p>{weather.time}</p>
-            <p>{weather.summary}</p>
-            <p>{weather.nearestStormDistance}</p>
-            <p>{weather.nearestStormBearing}</p>
+            <p>Summary: {weather.summary}</p>
+            <p>Temperature: {weather.temperature}</p>
+            <p>Apparent Temperature: {weather.apparentTemperature}</p>
+            <p>Humidity: {weather.humidity}</p>
+            <p>WindSpeed: {weather.windSpeed}</p>
+            <p>Visibility: {weather.visibility}</p>
+            {/* <p>dateTime: {weather.dateTime}</p> */}
+            <p>Day: {weather.day}</p>
         </div>
       );
         
