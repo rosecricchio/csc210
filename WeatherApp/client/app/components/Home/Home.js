@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import '../../styles/home.scss'
 import 'whatwg-fetch';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-
-
+import '../../styles/vendor/normalize.scss'
+import '../../styles/home.scss'
+import HelloWorld from '../HelloWorld/HelloWorld'
+import WeatherScreen from '../WeatherScreen/WeatherScreen'
 
 import {
   getFromStorage,
@@ -236,7 +237,7 @@ class Home extends Component {
     if (!token) {
       return (
         <div class="container">
-          <div>
+          {/* <div class="sign-in"> */}
             {
               (signInError) ? (
                 <p>{signInError}</p>
@@ -261,10 +262,10 @@ class Home extends Component {
               color="primary">
               Sign In
             </Button>
-          </div>
+          {/* </div> */}
           <br />
           <br />
-          <div>
+          {/* <div class="sign-up"> */}
             {
               (signUpError) ? (
                 <p>{signUpError}</p>
@@ -302,15 +303,20 @@ class Home extends Component {
               color="primary">
               Sign Up
             </Button>
-          </div>
+          {/* </div> */}
         </div>
       );
     }
 
     return (
       <div>
-        <p>Account</p>
-        <button onClick={this.logout}>Logout</button>
+        <WeatherScreen />
+        <Button 
+          onClick={this.logout}
+          variant="contained"
+          color="primary">
+          Logout
+        </Button>
       </div>
     );
   }
