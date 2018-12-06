@@ -43,6 +43,36 @@ module.exports = {
         loaders: ['style-loader', 'css-loader'],
        },
 
+  //      { 
+  //       test: /\.svg$/, 
+  //       loader: 'raw-loader' 
+  //  } ,
+
+  // {
+  //   test: /\.svg$/,
+  //   use: [
+  //     {
+  //       loader: "babel-loader"
+  //     },
+  //     {
+  //       loader: "react-svg-loader",
+  //       options: {
+  //         jsx: true // true outputs JSX tags
+  //       }
+  //     }
+  //   ]
+  // },
+
+  {
+    test: /\.(jpe?g|png|gif|svg)$/i,
+    use: [
+      'url-loader?limit=10000',
+      'img-loader'
+    ]
+  },
+
+
+
       // SCSS files
       {
         test: /\.scss$/,

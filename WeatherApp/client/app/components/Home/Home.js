@@ -245,7 +245,11 @@ class Home extends Component {
                 <p>{signInError}</p>
               ) : (null)
             }
+
             <Tabs>
+            <div class = "center" style ={{display: 'flex', justifyContent:"center"}}>
+            <img src={require('../cloud.png')} />
+            </div>
               <TabList>
                 <Tab>Sign In</Tab>
                 <Tab>Sign Up</Tab>
@@ -253,6 +257,7 @@ class Home extends Component {
 
             {/* <p>Sign In</p> */}
             <TabPanel>
+              
             <TextField
               label="Email"
               value={signInEmail}
