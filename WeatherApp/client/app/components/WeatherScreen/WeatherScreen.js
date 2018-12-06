@@ -12,124 +12,110 @@ DarkSkyApi.postProcessor = (item) => {
     return item;
 }
 
-
-
 class WeatherScreen extends Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-        // location: '',
-        latitude: '',
-        longitude: '',
+        isLoading: true,
         weather: '',
     };
-
-
-    // this.onTextboxChangeLocation = this.onTextboxChangeLocation.bind(this);
-    this.onTextboxChangeLatitude = this.onTextboxChangeLatitude.bind(this);
-    this.onTextboxChangeLongitude = this.onTextboxChangeLongitude.bind(this);
-    this.onLocationSubmit = this.onLocationSubmit.bind(this);
-    
   }
 
-//   onTextboxChangeLocation(event) {
-//     this.setState({
-//       location: event.target.value,
-//     });
-//     console.log(event.target.value);
-//   }
 
-  onTextboxChangeLatitude(event) {
-      this.setState({
-          latitude: event.target.value,
-      });
-      console.log(event.target.value);
+  // When component mounts, make call to api using current location
+componentDidMount() {
+    console.log('Component mounted!');
+   
+    DarkSkyApi.loadCurrent().then(
+        result => this.setState({
+            weather: result,
+        })
+    );
+
+    this.setState({ isLoading: false });
+
   }
 
-  onTextboxChangeLongitude(event) {
-    this.setState({
-        longitude: event.target.value,
-    });
-    console.log(event.target.value);
-}
+  // Function to display greeting to user
+  displayGreeting(day) {
+    var greeting = 'Happy ';
+    switch(day) {
+          case 'Mon': greeting += 'Monday!';
+          break; 
+          case 'Tue': greeting += 'Tuesday!';
+          break; 
+          case 'Wed': greeting += 'Wednesday!';
+          break; 
+          case 'Thu': greeting += 'Thursday!';
+          break; 
+          case 'Fri': greeting += 'Friday!';
+          break; 
+          case 'Sat': greeting += 'Saturday!';
+          break; 
+          case 'Sun': greeting += 'Sunday!';
+          break; 
+          default: break;
+      }
+      return greeting; 
+  }
 
-  onLocationSubmit() {
+  // Function to make recommendations 
+    makeRecommendation(temp) {
+        var rec = '';
+        if (temp < 0) {
+            rec = 'It\s below 0!';
+        }
+        else if (temp < 32) {
+            rec = 'It\'s freezing!';
+        }
+        else if (temp < 45) {
+            rec = 'It\s cold!';
+        }
+        else if (temp < 55) {
+            rec = 'It\s chilly!';
+        }
+        else if (temp < 75) {
+            rec = 'It\s warm!'; 
+        }
+        else if (temp < 85) {
+            rec = 'It\s hot!'; 
+        }
+        else if (temp < 100) {
+            rec = 'It\s sweltering!';
+        }
+        
+      return rec; 
+  }
+
+  render() { 
       const {
-          latitude, 
-          longitude,
-          weather,
+        isLoading,
+        weather,
       } = this.state;
-      console.log('submitted!');
-      const position = {
-          latitude: latitude,
-          longitude: longitude,
-      };
-      DarkSkyApi.loadCurrent(position)
-      .then(result => this.setState({
-          weather: result,
-      }));
-  }
 
+      if (isLoading) {
+        return (<div><p>Loading...</p></div>);
+      }
 
-//   componentDidMount() {
-//       console.log('mounted!');
-//       DarkSkyApi.loadCurrent().then(
-//         result => this.setState({
-//             weather: result,
-//         })
-//         );
-    
-//   }
-
-//   {time, summary, icon, nearestStormDistance, 
-//     nearestStormBearing, precipIntensity, precipProbability, 
-//     temperature, apparentTemperature, dewPoint, humidity, 
-//     pressure, windSpeed, windGust, windBearing, cloudCover, 
-//     uvIndex, visibility, ozone, windDirection, nearestStormDirection, 
-//     dateTime, day}
-
-  render() {
-      const {
-          latitude,
-          longitude,
-          weather,
-      } = this.state;
       return (
-          <div class="container">
+          <div className="container">
 
-             <TextField
-              label="Enter latitude"
-              value={latitude}
-              onChange={this.onTextboxChangeLatitude}
-              margin="normal"
-            /> <br />
-            <TextField
-              label="Enter longitude"
-              value={longitude}
-              onChange={this.onTextboxChangeLongitude}
-              margin="normal"
-            /> <br />
-            <Button 
-              onClick={this.onLocationSubmit}
-              variant="contained"
-              color="primary">
-              Submit
-            </Button>
-            <p>{weather.time}</p>
+            <p>{this.displayGreeting(weather.day)}</p>
+            <p>{this.makeRecommendation(weather.temperature)}</p>
+    
             <p>Summary: {weather.summary}</p>
             <p>Temperature: {weather.temperature}</p>
-            <p>Apparent Temperature: {weather.apparentTemperature}</p>
+            <p>Feels Like: {weather.apparentTemperature}</p>
             <p>Humidity: {weather.humidity}</p>
             <p>WindSpeed: {weather.windSpeed}</p>
             <p>Visibility: {weather.visibility}</p>
-            {/* <p>dateTime: {weather.dateTime}</p> */}
-            <p>Day: {weather.day}</p>
+           
         </div>
       );
         
   }
+
 }
 
 export default WeatherScreen;

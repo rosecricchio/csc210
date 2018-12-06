@@ -14,7 +14,6 @@ import {
   setInStorage,
 } from '../../utils/storage';
 
-
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -236,6 +235,7 @@ class Home extends Component {
       return (<div><p>Loading...</p></div>);
     }
 
+    // If user is not logged in display login screen
     if (!token) {
       return (
         <div style={{display: 'flex', justifyContent:"center"}}>
@@ -266,6 +266,7 @@ class Home extends Component {
             /> <br />
             <TextField
               label="Password"
+              type="password"
               value={signInPassword}
               onChange={this.onTextboxChangeSignInPassword}
               margin="normal"
@@ -280,7 +281,6 @@ class Home extends Component {
           {/* </div> */}
           <br />
           <br />
-          {/* <div class="sign-up"> */}
             {
               (signUpError) ? (
                 <p>{signUpError}</p>
@@ -308,6 +308,7 @@ class Home extends Component {
             /> <br />
             <TextField
               label="Password"
+              type="password"
               value={signUpPassword}
               onChange={this.onTextboxChangeSignUpPassword}
               margin="normal"
