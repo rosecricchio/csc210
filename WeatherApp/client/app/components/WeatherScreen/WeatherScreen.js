@@ -3,7 +3,7 @@ import 'whatwg-fetch';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import '../../styles/vendor/normalize.scss'
-import '../../styles/weatherscreen.scss'
+import '../../styles/home.scss'
 import DarkSkyApi from 'dark-sky-api';
 DarkSkyApi.apiKey = 'cbc79f06974f2a9d5ceabbcaa66869bf';
 DarkSkyApi.proxy = true; 
@@ -18,7 +18,8 @@ class WeatherScreen extends Component {
 
     this.state = {
         isLoading: true,
-        weather: '',
+        forecast: '',
+        current: '',
     };
   }
 
@@ -26,14 +27,30 @@ class WeatherScreen extends Component {
   // When component mounts, make call to api using current location
 componentDidMount() {
     console.log('Component mounted!');
-   
+    DarkSkyApi.loadForecast().then(
+        result => console.log(result));
+
+    DarkSkyApi.loadForecast().then(
+        result => this.setState({
+            forecast: result,
+        })
+    ); 
+
+    DarkSkyApi.loadCurrent().then(
+        result => console.log(result));
+
     DarkSkyApi.loadCurrent().then(
         result => this.setState({
-            weather: result,
+            current: result,
         })
+    ); 
+    
+    setTimeout(
+        function() {
+            this.setState({isLoading: false});
+        }
+        .bind(this), 900
     );
-
-    this.setState({ isLoading: false });
 
   }
 
@@ -91,25 +108,29 @@ componentDidMount() {
   render() { 
       const {
         isLoading,
-        weather,
+        forecast,
+        current,
       } = this.state;
 
       if (isLoading) {
-        return (<div><p>Loading...</p></div>);
+        return (
+        <div className="container">
+            <p>Loading...</p>
+        </div>
+        );
       }
 
       return (
           <div className="container">
 
-            <p>{this.displayGreeting(weather.day)}</p>
-            <p>{this.makeRecommendation(weather.temperature)}</p>
+            <p>{this.displayGreeting(forecast.daily.data[0].day)}</p>
+            <p>{this.makeRecommendation(current.apparentTemperature)}</p>
     
-            <p>Summary: {weather.summary}</p>
-            <p>Temperature: {weather.temperature}</p>
-            <p>Feels Like: {weather.apparentTemperature}</p>
-            <p>Humidity: {weather.humidity}</p>
-            <p>WindSpeed: {weather.windSpeed}</p>
-            <p>Visibility: {weather.visibility}</p>
+            <p>Weekly Summary: {forecast.daily.summary}</p>
+            <p>High today: {forecast.daily.data[0].temperatureHigh}</p>
+            <p>Low today: {forecast.daily.data[0].temperatureLow}</p>
+           
+            
            
         </div>
       );
