@@ -59,7 +59,7 @@ module.exports = (app) => {
       } else if (previousUsers.length > 0) {
         return res.send({
           success: false,
-          message: 'Error: Account already exist.'
+          message: 'Error: Account already exists'
         });
       }
 
@@ -116,7 +116,6 @@ module.exports = (app) => {
       email: email
     }, (err, users) => {
       if (err) {
-        console.log('err 2:', err);
         return res.send({
           success: false,
           message: 'Error: server error'
@@ -133,16 +132,15 @@ module.exports = (app) => {
       if (!user.validPassword(password)) {
         return res.send({
           success: false,
-          message: 'Error: Invalid'
+          message: 'Error: Invalid password'
         });
       }
 
-      // Otherwise correct user
+      // Otherwise, correct user
       const userSession = new UserSession();
       userSession.userId = user._id;
       userSession.save((err, doc) => {
         if (err) {
-          console.log(err);
           return res.send({
             success: false,
             message: 'Error: server error'
@@ -165,7 +163,6 @@ module.exports = (app) => {
     // ?token=test
 
     // Verify the token is one of a kind and it's not deleted.
-
     UserSession.find({
       _id: token,
       isDeleted: false
@@ -222,6 +219,4 @@ module.exports = (app) => {
       });
     });
   });
-
-  
 };
