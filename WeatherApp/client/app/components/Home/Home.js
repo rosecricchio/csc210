@@ -4,7 +4,9 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import '../../styles/vendor/normalize.scss'
 import '../../styles/home.scss'
-import HelloWorld from '../HelloWorld/HelloWorld'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import "react-tabs/style/react-tabs.scss";
+//import HelloWorld from '../HelloWorld/HelloWorld'
 import WeatherScreen from '../WeatherScreen/WeatherScreen'
 
 import {
@@ -236,13 +238,26 @@ class Home extends Component {
     // If user is not logged in display login screen
     if (!token) {
       return (
-        <div className="container">
+        <div style={{display: 'flex', justifyContent:"center"}}>
+          {/* <div class="sign-in"> */}
             {
               (signInError) ? (
                 <p>{signInError}</p>
               ) : (null)
             }
-            <p>Sign In</p>
+
+            <Tabs>
+            <div class = "center" style ={{display: 'flex', justifyContent:"center"}}>
+            <img src={require('../cloud.png')} />
+            </div>
+              <TabList>
+                <Tab>Sign In</Tab>
+                <Tab>Sign Up</Tab>
+              </TabList>
+
+            {/* <p>Sign In</p> */}
+            <TabPanel>
+              
             <TextField
               label="Email"
               value={signInEmail}
@@ -262,6 +277,8 @@ class Home extends Component {
               color="primary">
               Sign In
             </Button>
+            </TabPanel>
+          {/* </div> */}
           <br />
           <br />
             {
@@ -269,8 +286,8 @@ class Home extends Component {
                 <p>{signUpError}</p>
               ) : (null)
             }
-            <p>Sign Up</p>
-
+            {/* <p>Sign Up</p> */}
+            <TabPanel>
             <TextField
               label="First Name"
               value={signUpFirstName}
@@ -302,6 +319,9 @@ class Home extends Component {
               color="primary">
               Sign Up
             </Button>
+            </TabPanel>
+          {/* </div> */}
+          </Tabs>
         </div>
       );
     }
