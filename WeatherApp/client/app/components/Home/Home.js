@@ -240,11 +240,11 @@ class Home extends Component {
       return (
         <div style={{display: 'flex', justifyContent:"center"}}>
           {/* <div class="sign-in"> */}
-            {/* {
+            {
               (signInError) ? (
                 <p>{signInError}</p>
               ) : (null)
-            } */}
+            }
             <Tabs>
               <TabList>
                 <Tab>Sign In</Tab>
@@ -276,11 +276,11 @@ class Home extends Component {
           <br />
           <br />
           {/* <div class="sign-up"> */}
-            {/* {
+            {
               (signUpError) ? (
                 <p>{signUpError}</p>
               ) : (null)
-            } */}
+            }
             {/* <p>Sign Up</p> */}
             <TabPanel>
             <TextField
