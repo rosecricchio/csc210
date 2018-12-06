@@ -3,7 +3,7 @@ import 'whatwg-fetch';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import '../../styles/vendor/normalize.scss'
-import '../../styles/home.scss'
+import '../../styles/weatherscreen.scss'
 import DarkSkyApi from 'dark-sky-api';
 DarkSkyApi.apiKey = 'cbc79f06974f2a9d5ceabbcaa66869bf';
 DarkSkyApi.proxy = true; 
