@@ -1,8 +1,55 @@
 const User = require('../../models/User');
 const UserSession = require('../../models/UserSession');
+const UserPreferences = require('../../models/UserPreferences');
 
 
 module.exports = (app) => {
+  /*
+   * User preferences
+   * Making preferences object
+   */
+  app.post('/api/account/preferences', (req, res, next) => {
+    const { body } = req; 
+    const {
+      hot,
+      cold,
+      coat,
+      boots,
+      raincoat,
+      rainboots,
+      umbrella,
+    } = body; 
+
+    if (!hot || !cold) {
+      return res.send({
+        success: false,
+        message: 'Error: hot/cold be blank.'
+      });
+    }
+
+    const pref = new UserPreferences(); 
+    pref.hot = hot; 
+    pref.cold = cold; 
+    pref.coat = coat; 
+    pref.boots = boots; 
+    pref.raincoat = raincoat;
+    pref.rainboots = rainboots; 
+    pref.umbrella = umbrella; 
+    pref.save((err, pref) => {
+      if (err) {
+        return res.send({
+          success: false,
+          message: 'Error: server error' + err
+        });
+      }
+      return res.send({
+        success: true,
+        message: 'Preferences created'
+      });
+    });
+  });
+
+
   /*
    * Sign up
    */
