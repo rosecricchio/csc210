@@ -239,7 +239,6 @@ class Home extends Component {
     if (!token) {
       return (
         <div style={{display: 'flex', justifyContent:"center"}}>
-          {/* <div class="sign-in"> */}
             {
               (signInError) ? (
                 <p>{signInError}</p>
@@ -255,7 +254,6 @@ class Home extends Component {
                 <Tab>Sign Up</Tab>
               </TabList>
 
-            {/* <p>Sign In</p> */}
             <TabPanel>
               
             <TextField
@@ -278,7 +276,6 @@ class Home extends Component {
               Sign In
             </Button>
             </TabPanel>
-          {/* </div> */}
           <br />
           <br />
             {
@@ -286,7 +283,6 @@ class Home extends Component {
                 <p>{signUpError}</p>
               ) : (null)
             }
-            {/* <p>Sign Up</p> */}
             <TabPanel>
             <TextField
               label="First Name"
@@ -320,7 +316,6 @@ class Home extends Component {
               Sign Up
             </Button>
             </TabPanel>
-          {/* </div> */}
           </Tabs>
         </div>
       );
