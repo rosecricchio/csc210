@@ -246,8 +246,8 @@ class Home extends Component {
             }
 
             <Tabs>
-            <div style ={{display: 'flex', justifyContent:"center"}}>
-            <img src={require('../cloud.png')} />
+            <div class = "center" style ={{display: 'flex', justifyContent:"center"}}>
+            <img src={require('../rsz_cloud.png')} />
             </div>
               <TabList>
                 <Tab>Sign In</Tab>
