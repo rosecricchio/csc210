@@ -238,7 +238,7 @@ class Home extends Component {
     // If user is not logged in display login screen
     if (!token) {
       return (
-        <div style={{display: 'flex', justifyContent:"center"}}>
+        <div style={{display: 'flex', justifyContent:"center", backgroundColor: '#96DDFF'}}>
             {
               (signInError) ? (
                 <p>{signInError}</p>
