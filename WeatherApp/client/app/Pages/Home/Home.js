@@ -7,7 +7,7 @@ import '../../styles/home.scss'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "react-tabs/style/react-tabs.scss";
 //import HelloWorld from '../HelloWorld/HelloWorld'
-import WeatherScreen from '../WeatherScreen/WeatherScreen'
+import WeatherScreen from './WeatherScreen';
 
 import {
   getFromStorage,
@@ -248,7 +248,7 @@ class Home extends Component {
 
             <Tabs>
             <div class = "center" style ={{display: 'flex', justifyContent:"center"}}>
-            <img src={require('../rsz_cloud.png')} />
+            <img src={require('./Images/rsz_cloud.png')} />
             </div>
               <TabList>
                 <Tab>Sign In</Tab>
