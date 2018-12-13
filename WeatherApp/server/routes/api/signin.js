@@ -6,7 +6,7 @@ const UserPreferences = require('../../models/UserPreferences');
 module.exports = (app) => {
   /*
    * User preferences
-   * Making preferences object
+   * Setting values of pref object given form info
    */
   app.post('/api/account/preferences', (req, res, next) => {
     const { body } = req; 
@@ -18,6 +18,7 @@ module.exports = (app) => {
       raincoat,
       rainboots,
       umbrella,
+      userId,
     } = body; 
 
     if (!hot || !cold) {
@@ -27,28 +28,30 @@ module.exports = (app) => {
       });
     }
 
-    const pref = new UserPreferences(); 
-    pref.hot = hot; 
-    pref.cold = cold; 
-    pref.coat = coat; 
-    pref.boots = boots; 
-    pref.raincoat = raincoat;
-    pref.rainboots = rainboots; 
-    pref.umbrella = umbrella; 
-    pref.save((err, pref) => {
-      if (err) {
+    // Find this user's user pref object
+    UserPreferences.findOne({prefId: userId}, (err, result) => {
+      result.hot = hot; 
+      result.cold = cold; 
+      result.coat = coat; 
+      result.boots = boots; 
+      result.raincoat = raincoat;
+      result.rainboots = rainboots; 
+      result.umbrella = umbrella; 
+      result.completed = true;
+      result.save((err, pref) => {
+        if (err) {
+          return res.send({
+            success: false,
+            message: 'Error: ' + err
+          });
+        }
         return res.send({
-          success: false,
-          message: 'Error: server error' + err
+          success: true,
+          message: 'Preferences set'
         });
-      }
-      return res.send({
-        success: true,
-        message: 'Preferences created'
       });
     });
   });
-
 
   /*
    * Sign up
@@ -117,6 +120,17 @@ module.exports = (app) => {
       newUser.lastName = lastName;
       newUser.email = email;
       newUser.password = newUser.generateHash(password);
+
+      // Create new UserPreferences object with prefId = newUser._id
+      const newPref = new UserPreferences();  
+      newPref.prefId = newUser._id; 
+      newPref.save();
+
+      // //how to query user pref db
+      // UserPreferences.findOne({hot: ""}, (err, result) => {
+      //   console.log('*****', result.boots);
+      // });
+
       newUser.save((err, user) => {
         if (err) {
           return res.send({
@@ -124,13 +138,14 @@ module.exports = (app) => {
             message: 'Error: Server error'
           });
         }
+        // When signed up send id back in json response 
         return res.send({
           success: true,
-          message: 'Signed up'
+          message: 'Signed up!',
+          id: newUser._id,
         });
       });
     });
-
   });
 
   app.post('/api/account/signin', (req, res, next) => {
@@ -183,9 +198,17 @@ module.exports = (app) => {
         });
       }
 
-      // Otherwise, correct user
+      // Otherwise, user is correct
       const userSession = new UserSession();
       userSession.userId = user._id;
+
+      // When user is logging in, check if they've completed user pref survey
+      var isCompleted;
+      UserPreferences.findOne({prefId: user._id}, (err, result) => {
+        isCompleted = result.completed; 
+      });
+
+      UserPreferences.findOne
       userSession.save((err, doc) => {
         if (err) {
           return res.send({
@@ -197,7 +220,9 @@ module.exports = (app) => {
         return res.send({
           success: true,
           message: 'Valid sign in',
-          token: doc._id
+          token: doc._id,
+          completed: isCompleted,
+          userId: user._id,
         });
       });
     });
