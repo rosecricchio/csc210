@@ -268,7 +268,7 @@ class Home extends Component {
     // If user is not logged in display login screen
     else if (!token) {
       return (
-        <div style={{display: 'flex', justifyContent:"center"}}>
+        <div style={{display: 'flex', justifyContent:"center", margin:"150px"}}>
             {
               (signInError) ? (
                 <p>{signInError}</p>
@@ -276,8 +276,8 @@ class Home extends Component {
             }
 
             <Tabs>
-            <div className = "center" style ={{display: 'flex', justifyContent:"center"}}>
-            <img src={require('../rsz_cloud.png')} />
+            <div class = "center" style ={{display: 'flex', justifyContent:"center"}}>
+            <img src={require('./Images/rsz_cloud.png')} />
             </div>
               <TabList>
                 <Tab>Sign In</Tab>
