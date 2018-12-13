@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-var ObjectId = mongoose.Schema.Types.ObjectId;
 
 const UserSchema = new mongoose.Schema({
   firstName: {
@@ -22,11 +21,6 @@ const UserSchema = new mongoose.Schema({
   isDeleted: {
     type: Boolean,
     default: false
-  },
-  preferences: {
-    type: ObjectId,
-    default: null,
-    ref: "UserPreferences"
   },
 });
 

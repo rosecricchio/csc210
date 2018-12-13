@@ -6,8 +6,8 @@ import '../../styles/vendor/normalize.scss'
 import '../../styles/home.scss'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "react-tabs/style/react-tabs.scss";
-//import HelloWorld from '../HelloWorld/HelloWorld'
 import WeatherScreen from '../WeatherScreen/WeatherScreen'
+import Preferences from '../Preferences/Preferences'
 
 import {
   getFromStorage,
@@ -29,6 +29,15 @@ class Home extends Component {
       signUpPassword: '',
       signUpFirstName: '',
       signUpLastName: '',
+      prefCompleted: false,
+      userId: '',
+      cold: '',
+      hot: '',
+      coat: false,
+      boots: false,
+      raincoat: false,
+      rainboots: false,
+      umbrella: false,
     };
 
     this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
@@ -37,10 +46,25 @@ class Home extends Component {
     this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
     this.onTextboxChangeSignUpFirstName = this.onTextboxChangeSignUpFirstName.bind(this);
     this.onTextboxChangeSignUpLastName = this.onTextboxChangeSignUpLastName.bind(this);
-    
+
     this.onSignIn = this.onSignIn.bind(this);
     this.onSignUp = this.onSignUp.bind(this);
     this.logout = this.logout.bind(this);
+
+    this.handlePreferences = this.handlePreferences.bind(this);
+  }
+
+  handlePreferences = (hot, cold, coat, boots, raincoat, rainboots, umbrella) => {
+    this.setState({
+      hot: hot, 
+      cold: cold, 
+      coat: coat, 
+      boots: boots, 
+      raincoat: raincoat, 
+      rainboots: rainboots, 
+      umbrella: umbrella,
+    });
+    console.log('**- in home handle pref- ', hot);
   }
 
   componentDidMount() {
@@ -58,10 +82,10 @@ class Home extends Component {
           } 
         });
     } 
-
     this.setState({
       isLoading: false,
     });
+    console.log('completed: ', this.prefCompleted);
   }
 
   onTextboxChangeSignInEmail(event) {
@@ -178,7 +202,11 @@ class Home extends Component {
             signInPassword: '',
             signInEmail: '',
             token: json.token,
+            userId: json.userId,
+            prefCompleted: json.completed,
           });
+          console.log('**in signin: userId: ', json.userId);
+          
         } else {
           this.setState({
             signInError: json.message,
@@ -229,14 +257,16 @@ class Home extends Component {
       signUpFirstName,
       signUpLastName,
       signUpError,
+      prefCompleted,
+      userId,
     } = this.state;
 
-    if (isLoading) {
+    if (isLoading || userId == 'undefined') {
       return (<div><p>Loading...</p></div>);
     }
 
     // If user is not logged in display login screen
-    if (!token) {
+    else if (!token) {
       return (
         <div style={{display: 'flex', justifyContent:"center"}}>
             {
@@ -246,7 +276,7 @@ class Home extends Component {
             }
 
             <Tabs>
-            <div class = "center" style ={{display: 'flex', justifyContent:"center"}}>
+            <div className = "center" style ={{display: 'flex', justifyContent:"center"}}>
             <img src={require('../rsz_cloud.png')} />
             </div>
               <TabList>
@@ -321,17 +351,34 @@ class Home extends Component {
       );
     }
 
-    return (
-      <div>
-        <WeatherScreen />
-        <Button 
-          onClick={this.logout}
-          variant="contained"
-          color="primary">
-          Logout
-        </Button>
-      </div>
-    );
+    // If preferences not completed, display preferences screen
+    else if (!prefCompleted && userId != 'undefined') {
+          return (
+            <div>
+            <Preferences id={userId} onPref={this.handlePreferences}/>
+            <Button 
+              onClick={this.logout}
+              variant="contained"
+              color="primary">
+              Logout
+            </Button>
+            
+            </div>
+          );
+    }
+    else if(prefCompleted && userId != 'undefined'){
+      return (
+        <div>
+          <WeatherScreen />
+          <Button 
+            onClick={this.logout}
+            variant="contained"
+            color="primary">
+            Logout
+          </Button>
+        </div>
+      );
+    }
   }
 }
 
