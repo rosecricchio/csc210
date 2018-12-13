@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 import Radio from '@material-ui/core/Radio';
@@ -65,9 +64,7 @@ class Preferences extends Component {
           umbrella,
       } = this.state;
 
-      //fetch-> pass user id and preferences, find user and set preferences in backend
-
-      fetch('/api/account/preferences', {
+      fetch('/api/account/set_preferences', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -97,7 +94,6 @@ class Preferences extends Component {
               umbrella: umbrella,
             });
             this.props.onPref(hot, cold, coat, boots, raincoat, rainboots, umbrella);
-            console.log('** in pref- submitted- ', hot);
           } 
         });
   }
