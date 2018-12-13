@@ -289,6 +289,13 @@ class Home extends Component {
       signUpError,
       prefCompleted,
       userId,
+      hot,
+      cold,
+      coat, 
+      boots, 
+      raincoat, 
+      rainboots, 
+      umbrella,
     } = this.state;
 
     if (isLoading || userId == 'undefined') {
@@ -399,7 +406,9 @@ class Home extends Component {
     else if(prefCompleted && userId != 'undefined'){
       return (
         <div>
-          <WeatherScreen />
+          <WeatherScreen 
+            hot={hot} cold={cold} coat={coat} boots={boots} 
+            raincoat={raincoat} rainboots={rainboots} umbrella={umbrella} />
           <Button 
             onClick={this.logout}
             variant="contained"

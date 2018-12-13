@@ -3,6 +3,7 @@ import 'whatwg-fetch';
 import '../../styles/vendor/normalize.scss'
 import '../../styles/weatherscreen.scss'
 import DarkSkyApi from 'dark-sky-api';
+import regeneratorRuntime from "regenerator-runtime";//leave this even though it says it's unused!
 DarkSkyApi.apiKey = 'cbc79f06974f2a9d5ceabbcaa66869bf';
 DarkSkyApi.proxy = true; 
 DarkSkyApi.postProcessor = (item) => {
@@ -20,23 +21,21 @@ class WeatherScreen extends Component {
     };
   }
 
-
 // When component mounts, make call to api using current location
-componentDidMount() {
-    console.log('Component mounted!');
-    DarkSkyApi.loadForecast().then(
+async componentDidMount() {
+    await DarkSkyApi.loadForecast().then(
         result => console.log(result));
 
-    DarkSkyApi.loadForecast().then(
+    await DarkSkyApi.loadForecast().then(
         result => this.setState({
             forecast: result,
         })
     ); 
 
-    DarkSkyApi.loadCurrent().then(
+    await DarkSkyApi.loadCurrent().then(
         result => console.log(result));
 
-    DarkSkyApi.loadCurrent().then(
+    await DarkSkyApi.loadCurrent().then(
         result => this.setState({
             current: result,
         })
@@ -102,6 +101,26 @@ componentDidMount() {
       return rec; 
   }
 
+  test() {
+    var whatever = this.props.hot + ' ' + this.props.cold + ' ';
+    if(this.props.coat){
+        whatever += this.props.coat;
+    }
+    if(this.props.boots){
+        whatever += this.props.boots;
+    }
+    if(this.props.raincoat){
+        whatever += this.props.raincoat;
+    }
+    if(this.props.rainboots){
+        whatever += this.props.rainboots;
+    }
+    if(this.props.umbrella){
+        whatever += this.props.umbrella;
+    }
+    return whatever; 
+  }
+
   render() { 
       const {
         isLoading,
@@ -119,6 +138,7 @@ componentDidMount() {
 
       return (
           <div className="container">
+          <p>{this.test()}</p>
             
             <br />
             <p>Weather Info</p>
