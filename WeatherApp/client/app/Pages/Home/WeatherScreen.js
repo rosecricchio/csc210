@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import Preferences from '../../components/Preferences/Preferences'
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import FormGroup from '@material-ui/core/FormGroup';
-import Checkbox from '@material-ui/core/Checkbox';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 import '../../styles/vendor/normalize.scss'
 import '../../styles/home.scss'
 import DarkSkyApi from 'dark-sky-api';
