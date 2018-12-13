@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import '../../styles/vendor/normalize.scss'
-import '../../styles/home.scss'
+import '../../styles/weatherscreen.scss'
 import DarkSkyApi from 'dark-sky-api';
 DarkSkyApi.apiKey = 'cbc79f06974f2a9d5ceabbcaa66869bf';
 DarkSkyApi.proxy = true; 

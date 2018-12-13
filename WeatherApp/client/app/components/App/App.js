@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import '../../styles/nav.scss'
 
 const App = ({ children }) => (
   <>
-    <Header />
 
     <main>
       {children}

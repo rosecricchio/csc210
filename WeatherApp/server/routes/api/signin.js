@@ -2,57 +2,7 @@ const User = require('../../models/User');
 const UserSession = require('../../models/UserSession');
 const UserPreferences = require('../../models/UserPreferences');
 
-
 module.exports = (app) => {
-  /*
-   * User preferences
-   * Setting values of pref object given form info
-   */
-  app.post('/api/account/preferences', (req, res, next) => {
-    const { body } = req; 
-    const {
-      hot,
-      cold,
-      coat,
-      boots,
-      raincoat,
-      rainboots,
-      umbrella,
-      userId,
-    } = body; 
-
-    if (!hot || !cold) {
-      return res.send({
-        success: false,
-        message: 'Error: hot/cold be blank.'
-      });
-    }
-
-    // Find this user's user pref object
-    UserPreferences.findOne({prefId: userId}, (err, result) => {
-      result.hot = hot; 
-      result.cold = cold; 
-      result.coat = coat; 
-      result.boots = boots; 
-      result.raincoat = raincoat;
-      result.rainboots = rainboots; 
-      result.umbrella = umbrella; 
-      result.completed = true;
-      result.save((err, pref) => {
-        if (err) {
-          return res.send({
-            success: false,
-            message: 'Error: ' + err
-          });
-        }
-        return res.send({
-          success: true,
-          message: 'Preferences set'
-        });
-      });
-    });
-  });
-
   /*
    * Sign up
    */
@@ -126,11 +76,6 @@ module.exports = (app) => {
       newPref.prefId = newUser._id; 
       newPref.save();
 
-      // //how to query user pref db
-      // UserPreferences.findOne({hot: ""}, (err, result) => {
-      //   console.log('*****', result.boots);
-      // });
-
       newUser.save((err, user) => {
         if (err) {
           return res.send({
@@ -156,7 +101,6 @@ module.exports = (app) => {
     let {
       email
     } = body;
-
 
     if (!email) {
       return res.send({
@@ -200,7 +144,7 @@ module.exports = (app) => {
 
       // Otherwise, user is correct
       const userSession = new UserSession();
-      userSession.userId = user._id;
+      userSession.userID = user._id;
 
       // When user is logging in, check if they've completed user pref survey
       var isCompleted;
@@ -208,7 +152,6 @@ module.exports = (app) => {
         isCompleted = result.completed; 
       });
 
-      UserPreferences.findOne
       userSession.save((err, doc) => {
         if (err) {
           return res.send({
@@ -232,7 +175,6 @@ module.exports = (app) => {
     // Get the token
     const { query } = req;
     const { token } = query;
-    // ?token=test
 
     // Verify the token is one of a kind and it's not deleted.
     UserSession.find({
