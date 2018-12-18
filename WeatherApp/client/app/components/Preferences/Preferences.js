@@ -20,9 +20,13 @@ class Preferences extends Component {
         hot: '',
         coat: false,
         boots: false,
+        hat: false,
+        gloves: false,
+        scarf: false,
         raincoat: false,
         rainboots: false,
         umbrella: false,
+        sunglasses: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -49,9 +53,13 @@ class Preferences extends Component {
           cold,
           coat,
           boots,
+          hat,
+          scarf,
+          gloves,
           raincoat,
           rainboots,
           umbrella,
+          sunglasses,
       } = this.state;
 
       fetch('/api/account/set_preferences', {
@@ -65,9 +73,13 @@ class Preferences extends Component {
           cold: cold,
           coat: coat,
           boots: boots,
+          hat: hat,
+          gloves: gloves,
+          scarf: scarf,
           raincoat: raincoat, 
           rainboots: rainboots, 
           umbrella: umbrella,
+          sunglasses: sunglasses,
           userId: this.props.id,
         }),
       }).then(res => res.json())
@@ -75,15 +87,19 @@ class Preferences extends Component {
           console.log('json', json);
           if (json.success) {
             this.setState({
-              hot: hot,
-              cold: cold,
-              coat: coat,
-              boots: boots,
-              raincoat: raincoat, 
-              rainboots: rainboots, 
-              umbrella: umbrella,
+                hot: hot,
+                cold: cold,
+                coat: coat,
+                boots: boots,
+                hat: hat,
+                gloves: gloves,
+                scarf: scarf,
+                raincoat: raincoat, 
+                rainboots: rainboots, 
+                umbrella: umbrella,
+                sunglasses: sunglasses,
             });
-            this.props.onPref(hot, cold, coat, boots, raincoat, rainboots, umbrella);
+            this.props.onPref(hot, cold, coat, boots, hat, gloves, scarf, raincoat, rainboots, umbrella, sunglasses);
           } 
         });
   }
@@ -101,7 +117,6 @@ class Preferences extends Component {
                 name="cold" 
                 value={this.state.cold}
                 onChange={this.handleColdChange}
-                
             >
                 <FormControlLabel value="very" control={<Radio color="primary" />} label="Very" />
                 <FormControlLabel value="somewhat" control={<Radio color="primary" />} label="Somewhat" />
@@ -156,6 +171,39 @@ class Preferences extends Component {
                     control={
                         <Checkbox 
                         color="primary"
+                        checked={this.state.hat}
+                        onChange={this.handleChange('hat')}
+                        value="hat"
+                        />
+                    } 
+                    label="Winter hat" /> 
+
+                <FormControlLabel 
+                    control={
+                        <Checkbox 
+                        color="primary"
+                        checked={this.state.scarf}
+                        onChange={this.handleChange('scarf')}
+                        value="scarf"
+                        />
+                    } 
+                    label="Winter scarf" />   
+
+                <FormControlLabel 
+                    control={
+                        <Checkbox 
+                        color="primary"
+                        checked={this.state.gloves}
+                        onChange={this.handleChange('gloves')}
+                        value="gloves"
+                        />
+                    } 
+                    label="Winter gloves" />     
+
+                <FormControlLabel 
+                    control={
+                        <Checkbox 
+                        color="primary"
                         checked={this.state.raincoat}
                         onChange={this.handleChange('raincoat')}
                         value="raincoat"
@@ -184,6 +232,17 @@ class Preferences extends Component {
                         />
                     } 
                     label="Umbrella" />
+
+                <FormControlLabel 
+                    control={
+                        <Checkbox 
+                        color="primary"
+                        checked={this.state.sunglasses}
+                        onChange={this.handleChange('sunglasses')}
+                        value="sunglasses"
+                        />
+                    } 
+                    label="Sunglasses" />
               
             </FormGroup>
             </FormControl> <br />
