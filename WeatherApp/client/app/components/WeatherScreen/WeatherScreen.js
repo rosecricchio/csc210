@@ -131,13 +131,15 @@ async componentDidMount() {
       if (isLoading) {
         return (
         <div className="container">
-            <p>Loading...</p>
+            <p>Loading...</p> 
+            {/* I might want to change this */}
         </div>
         );
       }
 
       return (
           <div className="container">
+          
           {/* <p>{this.test()}</p> */}
             
             <br />
