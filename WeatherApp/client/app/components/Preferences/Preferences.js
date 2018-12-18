@@ -31,26 +31,16 @@ class Preferences extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentDidMount() {
-      console.log('** in pref mount: user id: ', this.props.id);
-  }
-
   handleChange = name => event => {
-      this.setState({ [name]: event.target.checked}, () =>{
-        console.log('items: ', name);
-      });
+      this.setState({ [name]: event.target.checked});
   }
 
   handleColdChange = event => {
-    this.setState({ cold: event.target.value }, () => {
-        console.log('cold: ' + this.state.cold);
-    });
+    this.setState({ cold: event.target.value });
   };
 
   handleHotChange = event => {
-    this.setState({ hot: event.target.value }, () => {
-        console.log('hot: ' + this.state.hot);
-    });
+    this.setState({ hot: event.target.value });
   };
 
   onSubmit() {
@@ -99,16 +89,6 @@ class Preferences extends Component {
   }
 
   render() { 
-    //   const {
-    //     hot,
-    //     cold,
-    //     coat, 
-    //     raincoat, 
-    //     boots, 
-    //     rainboots, 
-    //     umbrella, 
-    //   } = this.state;
-
       return (
           <div className="container">
             <p>User Preferences Survey</p>
