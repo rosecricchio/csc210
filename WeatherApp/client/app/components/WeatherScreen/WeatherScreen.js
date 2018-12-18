@@ -138,7 +138,7 @@ async componentDidMount() {
 
       return (
           <div className="container">
-          <p>{this.test()}</p>
+          {/* <p>{this.test()}</p> */}
             
             <br />
             <p>Weather Info</p>

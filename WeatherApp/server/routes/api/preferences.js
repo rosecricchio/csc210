@@ -15,7 +15,7 @@ module.exports = (app) => {
 
     // Find user's pref object
     UserPreferences.findOne({prefId: userId}, (err, result) => {
-      if(result.completed){
+      if(result && result.completed){
         return res.send({
           success: true,
           message: 'User prefs found',
