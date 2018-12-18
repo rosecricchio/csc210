@@ -34,9 +34,13 @@ class Home extends Component {
       hot: '',
       coat: false,
       boots: false,
+      hat: false,
+      scarf: false,
+      gloves: false,
       raincoat: false,
       rainboots: false,
       umbrella: false,
+      sunglasses: false,
     };
 
     this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
@@ -51,7 +55,6 @@ class Home extends Component {
     this.handlePreferences = this.handlePreferences.bind(this);
   }
 
-  //here need to fetch user pref data
   componentDidMount() {
     const obj = getFromStorage('Weather_App');
     if (obj && obj.token) {
@@ -88,9 +91,13 @@ class Home extends Component {
               hot: json.hot,
               coat: json.coat,
               boots: json.boots,
+              hat: json.hat,
+              scarf: json.scarf,
+              gloves: json.gloves,
               raincoat: json.raincoat,
               rainboots: json.rainboots,
               umbrella: json.umbrella,
+              sunglasses: json.sunglasses,
             });
             console.log('in home mount, completed: ', this.prefCompleted);
           } 
@@ -140,15 +147,19 @@ class Home extends Component {
   }
 
   // When preferences are submitted in preferences component, update the states
-  handlePreferences = (hot, cold, coat, boots, raincoat, rainboots, umbrella) => {
+  handlePreferences = (hot, cold, coat, boots, hat, scarf, gloves, raincoat, rainboots, umbrella, sunglasses) => {
     this.setState({
       hot: hot, 
       cold: cold, 
       coat: coat, 
       boots: boots, 
+      hat: hat,
+      scarf: scarf,
+      gloves: gloves,
       raincoat: raincoat, 
       rainboots: rainboots, 
       umbrella: umbrella,
+      sunglasses: sunglasses,
     });
     this.setState({
       prefCompleted: true,
@@ -293,9 +304,13 @@ class Home extends Component {
       cold,
       coat, 
       boots, 
+      hat, 
+      scarf,
+      gloves,
       raincoat, 
       rainboots, 
       umbrella,
+      sunglasses,
     } = this.state;
 
     if (isLoading || userId == 'undefined') {
@@ -403,12 +418,14 @@ class Home extends Component {
             </div>
           );
     }
+
+    // If preferences completed, display weather screen
     else if(prefCompleted && userId != 'undefined'){
       return (
         <div>
           <WeatherScreen 
-            hot={hot} cold={cold} coat={coat} boots={boots} 
-            raincoat={raincoat} rainboots={rainboots} umbrella={umbrella} />
+            hot={hot} cold={cold} coat={coat} boots={boots} hat={hat} gloves={gloves} scarf={scarf}
+            raincoat={raincoat} rainboots={rainboots} umbrella={umbrella} sunglasses={sunglasses}/>
           <Button 
             onClick={this.logout}
             variant="contained"
