@@ -138,8 +138,6 @@ async componentDidMount() {
 
       return (
           <div className="container">
-          
-          {/* <p>{this.test()}</p> */}
             
             <br />
 
