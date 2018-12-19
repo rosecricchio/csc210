@@ -142,7 +142,10 @@ async componentDidMount() {
           {/* <p>{this.test()}</p> */}
 
           <div className = "center" style ={{display: 'flex', justifyContent:"center"}}>
-            <img src={require('./Images/animated/snowy-1.svg')} />
+           {/* // <img src={require('./Images/animated/snowy-6.svg')} /> */}
+            <svg viewBox="0 0 60 55" width="400" height="200">
+                <image href = {require("./Images/animated/snowy-6.svg")} />
+            </svg>
             </div>
             
             <br />
