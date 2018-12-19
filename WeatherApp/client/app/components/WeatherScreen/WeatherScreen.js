@@ -35,7 +35,6 @@ async componentDidMount() {
             forecast: result,
         })
     ); 
-
     await DarkSkyApi.loadCurrent().then(
         result => console.log(result));
 
@@ -51,7 +50,6 @@ async componentDidMount() {
         }
         .bind(this), 900
     );
-
   }
 
   // Function to display greeting to user
@@ -77,17 +75,32 @@ async componentDidMount() {
       return greeting; 
   }
 
+  test() {
+      var s = 'hot: ' + this.props.hot; 
+      s += ', cold: ' + this.props.cold;
+      s += ', coat: ' + this.props.coat + ', boots: ' + this.props.boots + ', hat: ' + this.props.hat + ', gloves: ' + this.props.gloves;
+      s += ', scarf: ' + this.props.scarf + ', sunglasses: ' + this.props.sunglasses + ', raincoat: ' + this.props.raincoat + ', rainboots: ' + this.props.rainboots;
+      s += ', umbrella: ' + this.props.umbrella;
+
+    return s; 
+          
+    }
+
   // Function to make recommendations 
-    makeRecommendation(temp) {
+    makeRecommendation(temp, rain) {
         var rec = '';
+        var recItems = [];
+        var suggestedItems = [];
         if (temp < 0) {
-            rec = 'It\s below 0!';
+            rec = 'It\s below 0! Definitely bundle up.';
+            recItems = ['boots', 'coat', 'scarf', 'gloves', 'hat'];
         }
         else if (temp < 32) {
             rec = 'It\'s freezing!';
         }
         else if (temp < 45) {
             rec = 'It\s cold!';
+            recItems = []
         }
         else if (temp < 55) {
             rec = 'It\s chilly!';
@@ -101,28 +114,12 @@ async componentDidMount() {
         else if (temp < 100) {
             rec = 'It\s sweltering!';
         }
+
+        if (rain) {
+            recItems.push('raincoat', 'rainboots', 'umbrella');
+        }
         
       return rec; 
-  }
-
-  test() {
-    var whatever = this.props.hot + ' ' + this.props.cold + ' ';
-    if(this.props.coat){
-        whatever += this.props.coat;
-    }
-    if(this.props.boots){
-        whatever += this.props.boots;
-    }
-    if(this.props.raincoat){
-        whatever += this.props.raincoat;
-    }
-    if(this.props.rainboots){
-        whatever += this.props.rainboots;
-    }
-    if(this.props.umbrella){
-        whatever += this.props.umbrella;
-    }
-    return whatever; 
   }
 
   render() { 
@@ -135,24 +132,35 @@ async componentDidMount() {
       if (isLoading) {
         return (
         <div className="container">
-            <p>Loading...</p>
+            <p>Loading...</p> 
+            {/* I might want to change this */}
         </div>
         );
       }
 
+
+
       return (
           <div className="container">
-          <p>{this.test()}</p>
+          
+          {/* <p>{this.test()}</p> */}
+
+          <div className = "center" style ={{display: 'flex', justifyContent:"center"}}>
+            <img src={require('./Images/animated/snowy-1.svg')} />
+            </div>
             
             <br />
-            <p>Weather Info</p>
+
+            <p>{this.test()}</p>
+           
 
             <p>{this.displayGreeting(forecast.daily.data[0].day)}</p>
             <p>{this.makeRecommendation(current.apparentTemperature)}</p>
     
-            <p>Weekly Summary: {forecast.daily.summary}</p>
             <p>High today: {forecast.daily.data[0].temperatureHigh}</p>
             <p>Low today: {forecast.daily.data[0].temperatureLow}</p>
+            <p>Feels like: {forecast.daily.data[0].apparentTemperatureHigh}</p>
+            <p>What to expect this week: {forecast.daily.summary}</p>
            
             
         </div>

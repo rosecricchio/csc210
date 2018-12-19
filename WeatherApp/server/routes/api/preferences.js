@@ -15,7 +15,7 @@ module.exports = (app) => {
 
     // Find user's pref object
     UserPreferences.findOne({prefId: userId}, (err, result) => {
-      if(result.completed){
+      if(result && result.completed){
         return res.send({
           success: true,
           message: 'User prefs found',
@@ -23,8 +23,12 @@ module.exports = (app) => {
           cold: result.cold, 
           coat: result.coat, 
           boots: result.boots, 
+          hat: result.hat,
+          scarf: result.scarf,
+          gloves: result.gloves,
           raincoat: result.raincoat, 
           rainboots: result.rainboots,
+          sunglasses: result.sunglasses,
           completed: true,
         });
       }
@@ -48,9 +52,13 @@ module.exports = (app) => {
       cold,
       coat,
       boots,
+      hat,
+      scarf,
+      gloves,
       raincoat,
       rainboots,
       umbrella,
+      sunglasses,
       userId,
     } = body; 
 
@@ -67,9 +75,13 @@ module.exports = (app) => {
       result.cold = cold; 
       result.coat = coat; 
       result.boots = boots; 
+      result.hat = hat; 
+      result.gloves = gloves;
+      result.scarf = scarf;
       result.raincoat = raincoat;
       result.rainboots = rainboots; 
       result.umbrella = umbrella; 
+      result.sunglasses = sunglasses;
       result.completed = true;
       result.save((err, pref) => {
         if (err) {
