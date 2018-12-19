@@ -1,14 +1,21 @@
 const mongoose = require('mongoose');
-var ObjectId = mongoose.Schema.Types.ObjectId;
 
 const UserPreferencesSchema = new mongoose.Schema({
+  prefId: {
+    type: String,
+    default: '',
+  },
+  completed: {
+    type: Boolean,
+    default: false,
+  },
   hot: {
     type: String,
     default: ''
   },
   cold: {
     type: String,
-    default: ''
+    default: '',
   },
   coat: {
     type: Boolean,

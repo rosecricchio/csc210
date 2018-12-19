@@ -2,54 +2,7 @@ const User = require('../../models/User');
 const UserSession = require('../../models/UserSession');
 const UserPreferences = require('../../models/UserPreferences');
 
-
 module.exports = (app) => {
-  /*
-   * User preferences
-   * Making preferences object
-   */
-  app.post('/api/account/preferences', (req, res, next) => {
-    const { body } = req; 
-    const {
-      hot,
-      cold,
-      coat,
-      boots,
-      raincoat,
-      rainboots,
-      umbrella,
-    } = body; 
-
-    if (!hot || !cold) {
-      return res.send({
-        success: false,
-        message: 'Error: hot/cold be blank.'
-      });
-    }
-
-    const pref = new UserPreferences(); 
-    pref.hot = hot; 
-    pref.cold = cold; 
-    pref.coat = coat; 
-    pref.boots = boots; 
-    pref.raincoat = raincoat;
-    pref.rainboots = rainboots; 
-    pref.umbrella = umbrella; 
-    pref.save((err, pref) => {
-      if (err) {
-        return res.send({
-          success: false,
-          message: 'Error: server error' + err
-        });
-      }
-      return res.send({
-        success: true,
-        message: 'Preferences created'
-      });
-    });
-  });
-
-
   /*
    * Sign up
    */
@@ -117,6 +70,12 @@ module.exports = (app) => {
       newUser.lastName = lastName;
       newUser.email = email;
       newUser.password = newUser.generateHash(password);
+
+      // Create new UserPreferences object with prefId = newUser._id
+      const newPref = new UserPreferences();  
+      newPref.prefId = newUser._id; 
+      newPref.save();
+
       newUser.save((err, user) => {
         if (err) {
           return res.send({
@@ -124,13 +83,14 @@ module.exports = (app) => {
             message: 'Error: Server error'
           });
         }
+        // When signed up send id back in json response 
         return res.send({
           success: true,
-          message: 'Signed up'
+          message: 'Signed up!',
+          id: newUser._id,
         });
       });
     });
-
   });
 
   app.post('/api/account/signin', (req, res, next) => {
@@ -141,7 +101,6 @@ module.exports = (app) => {
     let {
       email
     } = body;
-
 
     if (!email) {
       return res.send({
@@ -183,9 +142,16 @@ module.exports = (app) => {
         });
       }
 
-      // Otherwise, correct user
+      // Otherwise, user is correct
       const userSession = new UserSession();
-      userSession.userId = user._id;
+      userSession.userID = user._id;
+
+      // When user is logging in, check if they've completed user pref survey
+      var isCompleted;
+      UserPreferences.findOne({prefId: user._id}, (err, result) => {
+        isCompleted = result.completed; 
+      });
+
       userSession.save((err, doc) => {
         if (err) {
           return res.send({
@@ -197,7 +163,9 @@ module.exports = (app) => {
         return res.send({
           success: true,
           message: 'Valid sign in',
-          token: doc._id
+          token: doc._id,
+          completed: isCompleted,
+          userId: user._id,
         });
       });
     });
@@ -207,7 +175,6 @@ module.exports = (app) => {
     // Get the token
     const { query } = req;
     const { token } = query;
-    // ?token=test
 
     // Verify the token is one of a kind and it's not deleted.
     UserSession.find({

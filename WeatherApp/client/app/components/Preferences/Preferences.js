@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 import Radio from '@material-ui/core/Radio';
@@ -29,8 +28,11 @@ class Preferences extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleColdChange = this.handleColdChange.bind(this);
     this.handleHotChange = this.handleHotChange.bind(this);
-    this.handleItemsChange = this.handleItemsChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+      console.log('** in pref mount: user id: ', this.props.id);
   }
 
   handleChange = name => event => {
@@ -51,12 +53,6 @@ class Preferences extends Component {
     });
   };
 
-  handleItemsChange = items => event => {
-    this.setState({ [items]: event.target.checked }, () => {
-        console.log('items: ' + this.state.items);
-    });
-  }
-
   onSubmit() {
       const {
           hot,
@@ -68,20 +64,21 @@ class Preferences extends Component {
           umbrella,
       } = this.state;
 
-      fetch('/api/account/preferences', {
+      fetch('/api/account/set_preferences', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
+       
         body: JSON.stringify({
           hot: hot,
           cold: cold,
-          hot: hot, 
           coat: coat,
           boots: boots,
           raincoat: raincoat, 
           rainboots: rainboots, 
           umbrella: umbrella,
+          userId: this.props.id,
         }),
       }).then(res => res.json())
         .then(json => {
@@ -96,20 +93,21 @@ class Preferences extends Component {
               rainboots: rainboots, 
               umbrella: umbrella,
             });
+            this.props.onPref(hot, cold, coat, boots, raincoat, rainboots, umbrella);
           } 
         });
   }
 
   render() { 
-      const {
-        hot,
-        cold,
-        coat, 
-        raincoat, 
-        boots, 
-        rainboots, 
-        umbrella, 
-      } = this.state;
+    //   const {
+    //     hot,
+    //     cold,
+    //     coat, 
+    //     raincoat, 
+    //     boots, 
+    //     rainboots, 
+    //     umbrella, 
+    //   } = this.state;
 
       return (
           <div className="container">

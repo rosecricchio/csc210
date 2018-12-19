@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import 'whatwg-fetch';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import WeatherScreen from '../WeatherScreen/WeatherScreen'
+import Preferences from '../Preferences/Preferences'
+import 'whatwg-fetch';
 import '../../styles/vendor/normalize.scss'
 import '../../styles/home.scss'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "react-tabs/style/react-tabs.scss";
-//import HelloWorld from '../HelloWorld/HelloWorld'
-import WeatherScreen from './WeatherScreen';
-
 import {
   getFromStorage,
   setInStorage,
@@ -29,6 +28,15 @@ class Home extends Component {
       signUpPassword: '',
       signUpFirstName: '',
       signUpLastName: '',
+      prefCompleted: false,
+      userId: '',
+      cold: '',
+      hot: '',
+      coat: false,
+      boots: false,
+      raincoat: false,
+      rainboots: false,
+      umbrella: false,
     };
 
     this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
@@ -37,17 +45,18 @@ class Home extends Component {
     this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
     this.onTextboxChangeSignUpFirstName = this.onTextboxChangeSignUpFirstName.bind(this);
     this.onTextboxChangeSignUpLastName = this.onTextboxChangeSignUpLastName.bind(this);
-    
     this.onSignIn = this.onSignIn.bind(this);
     this.onSignUp = this.onSignUp.bind(this);
     this.logout = this.logout.bind(this);
+    this.handlePreferences = this.handlePreferences.bind(this);
   }
 
+  //here need to fetch user pref data
   componentDidMount() {
     const obj = getFromStorage('Weather_App');
     if (obj && obj.token) {
       const { token } = obj;
-      // Verify token
+      // Verify token (one of a kind and not deleted)
       fetch('/api/account/verify?token=' + token)
         .then(res => res.json())
         .then(json => {
@@ -58,10 +67,40 @@ class Home extends Component {
           } 
         });
     } 
+    // Get user preference info
+    if (obj && obj.userId){
+      console.log('in home mount, userId: ', obj.userId)
+      fetch('/api/account/get_preferences', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: obj.userId,
+        }),
+      }).then(res => res.json())
+        .then(json => {
+          console.log('json', json);
+          if (json.success) {
+            this.setState({
+              prefCompleted: json.completed,
+              cold: json.cold,
+              hot: json.hot,
+              coat: json.coat,
+              boots: json.boots,
+              raincoat: json.raincoat,
+              rainboots: json.rainboots,
+              umbrella: json.umbrella,
+            });
+            console.log('in home mount, completed: ', this.prefCompleted);
+          } 
+        });
+    }
 
     this.setState({
       isLoading: false,
     });
+    
   }
 
   onTextboxChangeSignInEmail(event) {
@@ -97,6 +136,22 @@ class Home extends Component {
   onTextboxChangeSignUpLastName(event) {
     this.setState({
       signUpLastName: event.target.value,
+    });
+  }
+
+  // When preferences are submitted in preferences component, update the states
+  handlePreferences = (hot, cold, coat, boots, raincoat, rainboots, umbrella) => {
+    this.setState({
+      hot: hot, 
+      cold: cold, 
+      coat: coat, 
+      boots: boots, 
+      raincoat: raincoat, 
+      rainboots: rainboots, 
+      umbrella: umbrella,
+    });
+    this.setState({
+      prefCompleted: true,
     });
   }
 
@@ -146,6 +201,7 @@ class Home extends Component {
       });
   }
 
+  // When user signs in, verify username and password and fetch user preferences
   onSignIn() {
     // Grab state
     const {
@@ -171,13 +227,15 @@ class Home extends Component {
       .then(json => {
         console.log('json', json);
         if (json.success) {
-          setInStorage('Weather_App', { token: json.token });
+          setInStorage('Weather_App', { token: json.token, userId: json.userId });
           this.setState({
             signInError: json.success == false ? json.message : '',
             isLoading: false,
             signInPassword: '',
             signInEmail: '',
             token: json.token,
+            userId: json.userId,
+            prefCompleted: json.completed,
           });
         } else {
           this.setState({
@@ -229,14 +287,23 @@ class Home extends Component {
       signUpFirstName,
       signUpLastName,
       signUpError,
+      prefCompleted,
+      userId,
+      hot,
+      cold,
+      coat, 
+      boots, 
+      raincoat, 
+      rainboots, 
+      umbrella,
     } = this.state;
 
-    if (isLoading) {
+    if (isLoading || userId == 'undefined') {
       return (<div><p>Loading...</p></div>);
     }
 
     // If user is not logged in display login screen
-    if (!token) {
+    else if (!token) {
       return (
         <div style={{display: 'flex', justifyContent:"center", margin:"150px"}}>
             {
@@ -246,7 +313,7 @@ class Home extends Component {
             }
 
             <Tabs>
-            <div class = "center" style ={{display: 'flex', justifyContent:"center"}}>
+            <div className = "center" style ={{display: 'flex', justifyContent:"center"}}>
             <img src={require('./Images/rsz_cloud.png')} />
             </div>
               <TabList>
@@ -321,17 +388,36 @@ class Home extends Component {
       );
     }
 
-    return (
-      <div>
-        <WeatherScreen />
-        <Button 
-          onClick={this.logout}
-          variant="contained"
-          color="primary">
-          Logout
-        </Button>
-      </div>
-    );
+    // If preferences not completed, display preferences screen
+    else if (!prefCompleted && userId != 'undefined') {
+          return (
+            <div>
+            <Preferences id={userId} onPref={this.handlePreferences}/>
+            <Button 
+              onClick={this.logout}
+              variant="contained"
+              color="primary">
+              Logout
+            </Button>
+            
+            </div>
+          );
+    }
+    else if(prefCompleted && userId != 'undefined'){
+      return (
+        <div>
+          <WeatherScreen 
+            hot={hot} cold={cold} coat={coat} boots={boots} 
+            raincoat={raincoat} rainboots={rainboots} umbrella={umbrella} />
+          <Button 
+            onClick={this.logout}
+            variant="contained"
+            color="primary">
+            Logout
+          </Button>
+        </div>
+      );
+    }
   }
 }
 
