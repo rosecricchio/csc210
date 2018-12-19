@@ -10,6 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import '../../styles/vendor/normalize.scss'
 import '../../styles/home.scss'
+import { Grid } from '@material-ui/core';
 
 class Preferences extends Component {
   constructor(props) {
@@ -106,9 +107,13 @@ class Preferences extends Component {
 
   render() { 
       return (
-          <div className="container">
+          <div >
+              <Grid container spacing={24} direction="column">
+            <Grid container item spacing={0} justify="center" alignItems ="center">
+            <Grid item xs={3} >
             <p>User Preferences Survey</p>
-
+           
+           
             {/* Cold preference */}
            <FormControl component="fieldset">
             <FormLabel component="legend">How sensitive are you to the cold?</FormLabel>
@@ -124,6 +129,11 @@ class Preferences extends Component {
               
             </RadioGroup>
             </FormControl> <br />
+            </Grid>
+            </Grid>
+
+            <Grid container item spacing={0} justify="center" alignItems ="center">
+            <Grid item xs={3} >
 
             {/* Hot preferences */}
             <FormControl component="fieldset">
@@ -140,6 +150,11 @@ class Preferences extends Component {
               
             </RadioGroup>
             </FormControl> <br />
+            </Grid>
+            </Grid>
+
+            <Grid container item spacing={0} justify="center" alignItems ="center">
+            <Grid item xs={3} >
 
              {/* Items owned */}
             <FormControl component="fieldset">
@@ -247,13 +262,23 @@ class Preferences extends Component {
             </FormGroup>
             </FormControl> <br />
 
+            </Grid>
+            </Grid>
+            <Grid container item spacing={0} justify="center" alignItems ="center">
+            <Grid item xs={3}>
             <Button 
               onClick={this.onSubmit}
               variant="contained"
               color="primary">
               Submit
             </Button>
+</Grid>
+</Grid>
 
+            </Grid>
+
+
+           
         </div>
       );
   }
