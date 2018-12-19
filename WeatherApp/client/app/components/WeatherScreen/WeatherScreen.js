@@ -141,18 +141,21 @@ async componentDidMount() {
 
 
       return (
-          <div className="custom">
+          <div className="container">
           
           {/* <p>{this.test()}</p> */}
 
           <div className = "center" style ={{display: 'flex', justifyContent:"center"}}>
-            <img src={require('./Images/animated/snowy-1.svg')} />
-            </div>
+           {/* // <img src={require('./Images/animated/snowy-6.svg')} /> */}
+            <svg viewBox="0 0 60 55" width="400" height="200">
+                <image href = {require("./Images/animated/snowy-6.svg")} />
+            </svg>
+            
             
             <br />
 
-            <p>{this.test()}</p>
-           
+            {/* <p>{this.test()}</p> */}
+            </div>
 
             <p>{this.displayGreeting(forecast.daily.data[0].day)}</p>
             <p>{this.makeRecommendation(current.apparentTemperature)}</p>
@@ -161,9 +164,9 @@ async componentDidMount() {
             <p>Low today: {forecast.daily.data[0].temperatureLow}</p>
             <p>Feels like: {forecast.daily.data[0].apparentTemperatureHigh}</p>
             <p>What to expect this week: {forecast.daily.summary}</p>
-           
+            </div>
             
-        </div>
+       
       );
         
   }
