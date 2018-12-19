@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
-<<<<<<< HEAD:WeatherApp/client/app/Pages/Home/WeatherScreen.js
+//<<<<<<< HEAD:WeatherApp/client/app/Pages/Home/WeatherScreen.js
 import Preferences from '../../components/Preferences/Preferences'
-=======
->>>>>>> c2ca3b16fb0ab8d59b8c68eb0ccf02c8b737668f:WeatherApp/client/app/components/WeatherScreen/WeatherScreen.js
+//=======
+//>>>>>>> c2ca3b16fb0ab8d59b8c68eb0ccf02c8b737668f:WeatherApp/client/app/components/WeatherScreen/WeatherScreen.js
 import '../../styles/vendor/normalize.scss'
 import '../../styles/weatherscreen.scss'
 import DarkSkyApi from 'dark-sky-api';
@@ -132,7 +132,7 @@ async componentDidMount() {
       if (isLoading) {
         return (
         <div className="container">
-            {/* <p>Loading...</p>  */}
+            <p>Loading...</p> 
             {/* I might want to change this */}
         </div>
         );
