@@ -264,13 +264,20 @@ class Preferences extends Component {
 
             </Grid>
             </Grid>
+            <Grid container item spacing={0} justify="center" alignItems ="center">
+            <Grid item xs={3}>
             <Button 
               onClick={this.onSubmit}
               variant="contained"
               color="primary">
               Submit
             </Button>
+</Grid>
+</Grid>
+
             </Grid>
+
+
            
         </div>
       );

@@ -9,7 +9,7 @@ const App = ({ children }) => (
       {children}
     </main>
 
-    <Footer />
+    {/* <Footer /> */}
   </>
 );
 
