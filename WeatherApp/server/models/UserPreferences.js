@@ -21,6 +21,10 @@ const UserPreferencesSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  lightCoat: {
+    type: Boolean,
+    default: false,
+  },
   boots: {
     type: Boolean,
     default: false,
@@ -50,6 +54,18 @@ const UserPreferencesSchema = new mongoose.Schema({
     default: false,
   },
   sunglasses: {
+    type: Boolean,
+    default: false,
+  },
+  lightClothes: {
+    type: Boolean,
+    default: false,
+  },
+  sandals: {
+    type: Boolean,
+    default: false,
+  },
+  sunhat: {
     type: Boolean,
     default: false,
   },

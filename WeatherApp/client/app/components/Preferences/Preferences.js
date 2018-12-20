@@ -26,8 +26,12 @@ class Preferences extends Component {
         scarf: false,
         raincoat: false,
         rainboots: false,
+        lightCoat: false,
         umbrella: false,
         sunglasses: false,
+        lightClothes: false,
+        sunhat: false,
+        sandals: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -59,8 +63,12 @@ class Preferences extends Component {
           gloves,
           raincoat,
           rainboots,
+          lightCoat,
           umbrella,
           sunglasses,
+          lightClothes,
+          sunhat,
+          sandals,
       } = this.state;
 
       fetch('/api/account/set_preferences', {
@@ -79,8 +87,12 @@ class Preferences extends Component {
           scarf: scarf,
           raincoat: raincoat, 
           rainboots: rainboots, 
+          lightCoat: lightCoat,
           umbrella: umbrella,
           sunglasses: sunglasses,
+          lightClothes: lightClothes,
+          sunhat: sunhat,
+          sandals: sandals,
           userId: this.props.id,
         }),
       }).then(res => res.json())
@@ -97,10 +109,15 @@ class Preferences extends Component {
                 scarf: scarf,
                 raincoat: raincoat, 
                 rainboots: rainboots, 
+                lightCoat: lightCoat,
                 umbrella: umbrella,
                 sunglasses: sunglasses,
+                lightClothes: lightClothes,
+                sunhat: sunhat,
+                sandals: sandals,
             });
-            this.props.onPref(hot, cold, coat, boots, hat, gloves, scarf, raincoat, rainboots, umbrella, sunglasses);
+            this.props.onPref(hot, cold, coat, boots, hat, gloves, scarf, raincoat, rainboots, lightCoat, 
+                umbrella, sunglasses, lightClothes, sunhat, sandals);
           } 
         });
   }
@@ -108,7 +125,7 @@ class Preferences extends Component {
   render() { 
       return (
           <div >
-              <Grid container spacing={24} direction="column">
+            <Grid container spacing={24} direction="column">
             <Grid container item spacing={0} justify="center" alignItems ="center">
             <Grid item xs={3} >
             <p>User Preferences Survey</p>
@@ -144,9 +161,9 @@ class Preferences extends Component {
                 value={this.state.hot}
                 onChange={this.handleHotChange}
             >
-                <FormControlLabel value="very" control={<Radio color="secondary" />} label="Very" />
-                <FormControlLabel value="somewhat" control={<Radio color="secondary" />} label="Somewhat" />
-                <FormControlLabel value="not" control={<Radio color="secondary" />} label="Not at all" />
+                <FormControlLabel value="very" control={<Radio color="primary" />} label="Very" />
+                <FormControlLabel value="somewhat" control={<Radio color="primary" />} label="Somewhat" />
+                <FormControlLabel value="not" control={<Radio color="primary" />} label="Not at all" />
               
             </RadioGroup>
             </FormControl> <br />
@@ -252,12 +269,56 @@ class Preferences extends Component {
                     control={
                         <Checkbox 
                         color="primary"
+                        checked={this.state.lightCoat}
+                        onChange={this.handleChange('lightCoat')}
+                        value="lightCoat"
+                        />
+                    } 
+                    label="Light coat" />
+
+                <FormControlLabel 
+                    control={
+                        <Checkbox 
+                        color="primary"
+                        checked={this.state.lightClothes}
+                        onChange={this.handleChange('lightClothes')}
+                        value="lightClothes"
+                        />
+                    } 
+                    label="Light clothing: shorts, light t-shirts, skirts, dresses" />
+
+                <FormControlLabel 
+                    control={
+                        <Checkbox 
+                        color="primary"
                         checked={this.state.sunglasses}
                         onChange={this.handleChange('sunglasses')}
                         value="sunglasses"
                         />
                     } 
                     label="Sunglasses" />
+
+                <FormControlLabel 
+                    control={
+                        <Checkbox 
+                        color="primary"
+                        checked={this.state.sandals}
+                        onChange={this.handleChange('sandals')}
+                        value="sandals"
+                        />
+                    } 
+                    label="Sandals" />
+
+                <FormControlLabel 
+                    control={
+                        <Checkbox 
+                        color="primary"
+                        checked={this.state.sunhat}
+                        onChange={this.handleChange('sunhat')}
+                        value="sunhat"
+                        />
+                    } 
+                    label="Baseball cap/ sunhat" />
               
             </FormGroup>
             </FormControl> <br />

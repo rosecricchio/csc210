@@ -7,10 +7,8 @@ import {
   Link,
   Switch
 } from 'react-router-dom'
-
 import App from './components/App/App';
 import Home from './components/Home/Home';
-//import HelloWorld from './components/HelloWorld/HelloWorld';
 
 
 
@@ -19,7 +17,6 @@ render((
     <App>
       <Switch>
         <Route exact path="/" component={Home}/>
-        {/* <Route path="/helloworld" component={HelloWorld}/> */}
       </Switch>
     </App>
   </Router>
