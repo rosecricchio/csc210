@@ -37,7 +37,7 @@ if (isDev) {
 
   app.use(webpackDevMiddleware(compiler, {
     publicPath: webpackConfig.output.publicPath,
-    contentBase: path.resolve(__dirname, '../client/public'),
+    contentBase: path.resolve(__dirname, '../client/Views'),
     stats: {
       colors: true,
       hash: false,

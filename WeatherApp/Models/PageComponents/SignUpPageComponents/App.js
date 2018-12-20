@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import Footer from '../Footer/Footer';
-import '../../styles/nav.scss'
+import Footer from './Footer';
 
 const App = ({ children }) => (
   <>
-
     <main>
       {children}
     </main>
-
-    {/* <Footer /> */}
   </>
 );
 

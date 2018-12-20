@@ -1,0 +1,18 @@
+Button {
+    max-width:100px;
+}
+
+* {
+ box-sizing: border-box;
+}
+*:before,
+*:after {
+ box-sizing: border-box;
+}
+html,
+body {
+ height: 100%;
+ width: 100%;
+ background: url(./cool-background.png) repeat 0 0;
+ background-size: cover;
+}

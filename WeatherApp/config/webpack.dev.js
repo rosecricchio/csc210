@@ -10,7 +10,7 @@ module.exports = merge(commonConfig, {
 
   entry: {
     'app': [
-      'webpack-hot-middleware/client?reload=true'
+      'webpack-hot-middleware?reload=true'
     ]
   },
 
@@ -20,7 +20,7 @@ module.exports = merge(commonConfig, {
   },
 
   devServer: {
-    contentBase: './client/public',
+    contentBase: './Views',
     historyApiFallback: true,
     stats: 'minimal' // none (or false), errors-only, minimal, normal (or true) and verbose
   }

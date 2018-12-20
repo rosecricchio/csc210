@@ -1,8 +1,8 @@
 import React from "react";
 
-import Titles from "../components/index/Title";
-import Form from "../components/index/Form";
-import Weather from "../components/index/Weather";
+import Titles from "../PageComponents/WeatherSearchComponents/Title";
+import Form from "../PageComponents/WeatherSearchComponents/Form";
+import Weather from "../PageComponents/WeatherSearchComponents/Weather";
 
 const API_KEY = "d7256234b929ca2f1093a9ae5652778c";
 

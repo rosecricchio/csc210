@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import WeatherScreen from '../WeatherScreen/WeatherScreen'
-import Preferences from '../Preferences/Preferences'
+import WeatherScreen from './WeatherScreenPage'
+import Preferences from './PreferencePage'
 import 'whatwg-fetch';
-import '../../styles/vendor/normalize.scss'
-import '../../styles/home.scss'
+import '../styles/vendor/normalize.scss'
+import '../styles/home.scss'
 import "react-tabs/style/react-tabs.scss";
 import {
   getFromStorage,
   setInStorage,
-} from '../../utils/storage';
+} from '../utils/storage';
 import { Grid } from '@material-ui/core';
 
 class Home extends Component {
@@ -314,9 +314,8 @@ class Home extends Component {
             }
 
             <Tabs>
-            <div className = "navbar" style ={{display: 'flex', justifyContent:"navbar"}}>
-            <a href="/"></a>
-            <img src={require('./Images/rsz_cloud.png')} />
+            <div className = "center" style ={{display: 'flex', justifyContent:"center"}}>
+            <img src={require('../Images/rsz_cloud.png')} />
             </div>
               <TabList>
                 <Tab>Sign In</Tab>
