@@ -33,11 +33,19 @@ class Home extends Component {
       userId: '',
       cold: '',
       hot: '',
+      lightCoat: false,
       coat: false,
       boots: false,
+      hat: false,
+      scarf: false,
+      gloves: false,
       raincoat: false,
       rainboots: false,
       umbrella: false,
+      sunglasses: false,
+      sunhat: false,
+      lightClothes: false,
+      sandals: false,
     };
 
     this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
@@ -70,7 +78,6 @@ class Home extends Component {
     } 
     // Get user preference info
     if (obj && obj.userId){
-      console.log('in home mount, userId: ', obj.userId)
       fetch('/api/account/get_preferences', {
         method: 'POST',
         headers: {
@@ -88,12 +95,19 @@ class Home extends Component {
               cold: json.cold,
               hot: json.hot,
               coat: json.coat,
+              lightCoat: json.lightCoat,
               boots: json.boots,
+              hat: json.hat, 
+              scarf: json.scarf,
+              gloves: json.gloves,
               raincoat: json.raincoat,
               rainboots: json.rainboots,
               umbrella: json.umbrella,
+              sunglasses: json.sunglasses,
+              sunhat: json.sunhat,
+              sandals: json.sandals,
+              lightClothes: json.lightClothes,
             });
-            console.log('in home mount, completed: ', this.prefCompleted);
           } 
         });
     }
@@ -141,15 +155,24 @@ class Home extends Component {
   }
 
   // When preferences are submitted in preferences component, update the states
-  handlePreferences = (hot, cold, coat, boots, raincoat, rainboots, umbrella) => {
+  handlePreferences = (hot, cold, coat, boots, hat, scarf, gloves, raincoat, rainboots, umbrella, 
+    sunglasses, lightCoat, sunhat, lightClothes, sandals) => {
     this.setState({
       hot: hot, 
       cold: cold, 
       coat: coat, 
       boots: boots, 
+      hat: hat, 
+      gloves: gloves, 
+      scarf: scarf, 
       raincoat: raincoat, 
       rainboots: rainboots, 
       umbrella: umbrella,
+      sunglasses: sunglasses, 
+      lightCoat: lightCoat,
+      sunhat: sunhat, 
+      lightClothes: lightClothes,
+      sandals: sandals,
     });
     this.setState({
       prefCompleted: true,
@@ -294,9 +317,17 @@ class Home extends Component {
       cold,
       coat, 
       boots, 
+      hat, 
+      scarf,
+      gloves,
       raincoat, 
       rainboots, 
       umbrella,
+      sunglasses,
+      sunhat,
+      sandals,
+      lightClothes,
+      lightCoat,
     } = this.state;
 
     if (isLoading || userId == 'undefined') {
@@ -326,6 +357,7 @@ class Home extends Component {
               
             <TextField
               label="Email"
+              type="email"
               value={signInEmail}
               onChange={this.onTextboxChangeSignInEmail}
               margin="normal"
@@ -402,9 +434,6 @@ class Home extends Component {
             </Button>
             </Grid>
             <Preferences id={userId} onPref={this.handlePreferences}/>
-
-
-           
             </div>
           );
     }
@@ -412,8 +441,9 @@ class Home extends Component {
       return (
         <div>
           <WeatherScreen 
-            hot={hot} cold={cold} coat={coat} boots={boots} 
-            raincoat={raincoat} rainboots={rainboots} umbrella={umbrella} />
+            hot={hot} cold={cold} coat={coat} boots={boots} hat={hat} gloves={gloves} scarf={scarf}
+            raincoat={raincoat} rainboots={rainboots} umbrella={umbrella} sunglasses={sunglasses} 
+            lightCoat={lightCoat} sunhat={sunhat} lightClothes={lightClothes} sandals={sandals} />
           <Grid align = "right">
           <Button 
             onClick={this.logout}

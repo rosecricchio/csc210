@@ -1,5 +1,3 @@
-const User = require('../../models/User');
-const UserSession = require('../../models/UserSession');
 const UserPreferences = require('../../models/UserPreferences');
 
 module.exports = (app) => {
@@ -26,9 +24,13 @@ module.exports = (app) => {
           hat: result.hat,
           scarf: result.scarf,
           gloves: result.gloves,
+          lightCoat: result.lightCoat,
           raincoat: result.raincoat, 
           rainboots: result.rainboots,
           sunglasses: result.sunglasses,
+          lightClothes: result.lightClothes,
+          sandals: result.sandals, 
+          sunhat: result.sunhat,
           completed: true,
         });
       }
@@ -57,8 +59,12 @@ module.exports = (app) => {
       gloves,
       raincoat,
       rainboots,
+      lightCoat,
       umbrella,
       sunglasses,
+      lightClothes,
+      sandals,
+      sunhat,
       userId,
     } = body; 
 
@@ -80,8 +86,12 @@ module.exports = (app) => {
       result.scarf = scarf;
       result.raincoat = raincoat;
       result.rainboots = rainboots; 
+      result.lightCoat = lightCoat;
       result.umbrella = umbrella; 
       result.sunglasses = sunglasses;
+      result.lightClothes = lightClothes; 
+      result.sunhat = sunhat; 
+      result.sandals = sandals; 
       result.completed = true;
       result.save((err, pref) => {
         if (err) {
