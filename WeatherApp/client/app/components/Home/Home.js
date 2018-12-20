@@ -314,7 +314,8 @@ class Home extends Component {
             }
 
             <Tabs>
-            <div className = "center" style ={{display: 'flex', justifyContent:"center"}}>
+            <div className = "navbar" style ={{display: 'flex', justifyContent:"navbar"}}>
+            <a href="/"></a>
             <img src={require('./Images/rsz_cloud.png')} />
             </div>
               <TabList>
