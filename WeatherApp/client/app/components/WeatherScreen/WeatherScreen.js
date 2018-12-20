@@ -282,7 +282,7 @@ async componentDidMount() {
 
       var notOwnedRec = '';
       if(notOwned.length > 0) {
-        notOwnedRec += 'Things you may consider getting for this weather:'
+        notOwnedRec += 'Things you may consider getting for this weather: '
         notOwned.forEach(function(element) {
             notOwnedRec += element + ', ';
         });
@@ -312,7 +312,7 @@ async componentDidMount() {
           rain = true;
       }
       // Get recommended items
-      var rec = this.makeRecommendation(current.apparentTemperature, rain, forecast.daily.data[0].temperatureHigh-forecast.daily.data[0].temperatureLow);
+      var rec = this.makeRecommendation(current.apparentTemperature, rain, forecast.daily.data[0].temperatureHigh-forecast.daily.data[0].temperatureLow, this.props.hot, this.props.cold);
       // Get suggested items
       var suggestion = this.suggestItems(rec[1]);
 
@@ -329,8 +329,8 @@ async componentDidMount() {
             <p>It currently feels like: {current.apparentTemperature}° F</p>
             <p>{rec[0]}</p>
             <p>{rec[2]}</p>
-            <p>{suggestion[1]}</p>
             <p>{suggestion[0]}</p>
+            <p>{suggestion[1]}</p>
             
             <p>High today: {forecast.daily.data[0].temperatureHigh}° F</p>
             <p>Low today: {forecast.daily.data[0].temperatureLow}° F</p>
